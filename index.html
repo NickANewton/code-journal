@@ -43,11 +43,11 @@
             <div>
               <label for="title">Title</label>
             </div>
-            <input id="title" type="text" class="mb-25 mt-10">
+            <input id="title" type="text" name="user-title" required="true" class="mb-25 mt-10">
             <div>
               <label for="photo">Photo Url</label>
             </div>
-            <input type="url" class="mb-25 mt-10">
+            <input id="photo" type="url" name="user-url" required="true" class="mb-25 mt-10">
           </div>
         </div>
         <div class="row">
@@ -55,7 +55,7 @@
             <div>
               <label for="notes">Notes</label>
             </div>
-            <textarea name="notes" id="notes" class="mt-10"></textarea>
+            <textarea name="user-notes" id="notes" required="true" class="mt-10"></textarea>
             <div class="text-right">
               <button class="mb-25 color-purple">SAVE</button>
             </div>
