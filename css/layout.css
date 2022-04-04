@@ -18,6 +18,83 @@
   width: 100%;
 }
 
+img {
+  height: 250px;
+  object-fit: cover;
+}
+
+.color-purple {
+  background-color: rgb(86, 43, 128);
+}
+
+h3 {
+  margin: 0;
+  color: white;
+}
+
+body {
+  font-family: "Proza Libre", sans-serif;
+  font-weight: 600;
+  font-size: normal;
+  background-color: rgb(240, 240, 240);
+}
+
+header {
+  font-family: "Proza Libre", sans-serif;
+  font-weight: 400;
+  font-size: normal;
+}
+
+.text-right {
+  text-align: right;
+}
+
+input,
+textarea,
+img {
+  width: 100%;
+}
+
+input {
+  height: 40px;
+}
+
+textarea {
+  height: 150px;
+  margin-bottom: 15px;
+}
+
+.mb-25 {
+  margin-bottom: 25px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+button {
+  color: white;
+  border: none;
+  border-radius: 4px;
+  height: 30px;
+  width: 70px;
+  font-size: 15px;
+}
+
+input,
+textarea {
+  border: 2px solid rgb(205, 205, 205);
+  border-radius: 5px;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.height-50 {
+  height: 50px;
+}
+
 @media screen and (min-width: 768px) {
   .container {
     max-width: 900px;
@@ -30,5 +107,10 @@
 
   .column-half {
     width: 50%;
+  }
+
+  img {
+    height: auto;
+    object-fit: contain;
   }
 }
