@@ -46,6 +46,7 @@ textarea {
   border: 2px solid rgb(196, 197, 196);
   border-radius: 5px;
   padding: 10px;
+  font-size: 16px;
 }
 
 input,
