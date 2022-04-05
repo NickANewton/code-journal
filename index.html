@@ -10,14 +10,60 @@
     crossorigin="anonymous"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
     integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Proza+Libre:wght@400;600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header>
+  <header class="color-purple">
+    <div class="row align-center height-50 container">
+      <div class="column-full">
+        <h3>Code Journal</h3>
+      </div>
+    </div>
   </header>
   <main>
+    <div data-view="entry-form" class="container">
+      <div class="row">
+        <div class="column-full">
+          <h1>New Entry</h1>
+        </div>
+      </div>
+      <form>
+        <div class="row">
+          <div class="column-half">
+            <div>
+              <img src="images/placeholder-image-square.jpg" alt="Placeholder Image" class="mb-25">
+            </div>
+          </div>
+          <div class="column-half">
+            <div>
+              <label for="title">Title</label>
+            </div>
+            <input id="title" type="text" name="user-title" required="true" class="mb-25 mt-10 open-sans-reg">
+            <div>
+              <label for="photo">Photo Url</label>
+            </div>
+            <input id="photo" type="url" name="user-url" required="true" class="mb-25 mt-10 open-sans-reg">
+          </div>
+        </div>
+        <div class="row">
+          <div class="column-full">
+            <div>
+              <label for="notes">Notes</label>
+            </div>
+            <textarea name="user-notes" id="notes" required="true" class="mt-10 open-sans-reg"></textarea>
+            <div class="text-right">
+              <button class="mb-25 color-purple">SAVE</button>
+            </div>
+          </div>
+        </div>
+      </form>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
