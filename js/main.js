@@ -25,7 +25,7 @@ function handleSubmitEvent(event) {
   };
   form.Id = data.nextEntryId;
   data.nextEntryId++;
-  data.entries.push(form);
+  data.entries.unshift(form);
 }
 
 $form.addEventListener('submit', handleSubmitEvent);
