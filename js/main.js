@@ -23,20 +23,9 @@ function handleSubmitEvent(event) {
     photoUrl: $photo.value,
     notes: $notes.value
   };
-
-  var previousDataJSON = JSON.parse(localStorage.getItem('form-user-data'));
-
-  if (previousDataJSON === null) {
-    form.id = data.nextEntryId;
-    data.nextEntryId++;
-    data.entries.push(form);
-    localStorage.setItem('form-user-data', JSON.stringify(data));
-  } else {
-    form.id = previousDataJSON.nextEntryId;
-    previousDataJSON.nextEntryId++;
-    previousDataJSON.entries.push(form);
-    localStorage.setItem('form-user-data', JSON.stringify(previousDataJSON));
-  }
+  form.Id = data.nextEntryId;
+  data.nextEntryId++;
+  data.entries.push(form);
 }
 
 $form.addEventListener('submit', handleSubmitEvent);
