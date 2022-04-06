@@ -22,13 +22,13 @@
 <body>
   <header class="color-purple">
     <div class="row align-center height-50 container">
-      <div class="column-full">
+      <div class="column-full display-flex">
         <div>
-          <h3>Code Journal</h3>
+          <h3 class="color-white">Code Journal</h3>
         </div>
-        <div>
-          <nav>
-            <a href="#" data-view="entries">Entries</a>
+        <div class="display-flex">
+          <nav class="display-flex align-center color-white">
+            <a href="#" data-view="entries" class="color-white pl-15">Entries</a>
           </nav>
         </div>
       </div>
@@ -66,26 +66,26 @@
             </div>
             <textarea name="user-notes" id="notes" required="true" class="mt-10"></textarea>
             <div class="text-right">
-              <button class="mb-25 color-purple">SAVE</button>
+              <button class="mb-25 color-purple button-styling color-white">SAVE</button>
             </div>
           </div>
         </div>
       </form>
     </div>
-    <div data-view="entries" class="view container journal hidden">
+    <div id="journal" data-view="entries" class="view container hidden">
       <div class="row">
         <div class="column-full display-flex">
           <div>
             <h1>Entries</h1>
           </div>
           <div class="justify-right align-center display-flex width">
-            <a href="#" data-view="entry-form" class="color-purple">NEW</a>
+            <a href="#" data-view="entry-form" class="color-purple button-styling color-white new-a-position">NEW</a>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="column-full display-flex align-center justify-center height-100">
-          <p>No entries have been recorded.</p>
+          <p class="no-entries">No entries have been recorded.</p>
         </div>
       </div>
     </div>

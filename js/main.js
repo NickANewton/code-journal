@@ -6,6 +6,7 @@ var $placeHolderImage = document.querySelector('img');
 var $inputImage = document.querySelector('#photo');
 var $inputTitle = document.querySelector('#title');
 var $inputNotes = document.querySelector('#notes');
+var $pElementNoEntries = document.querySelector('.no-entries');
 
 function handleInputEvent(event) {
   if (event.target !== $inputImage) {
@@ -29,8 +30,9 @@ function handleSubmitEvent(event) {
   data.nextEntryId++;
   data.entries.unshift(form);
 
-  $journalRow.appendChild(renderEntries(form));
+  $journalContainer.appendChild(renderEntries(form));
   $placeHolderImage.setAttribute('src', 'images/placeholder-image-square.jpg');
+  $pElementNoEntries.className = 'no-entries hidden';
   $form.reset();
 }
 
@@ -90,12 +92,12 @@ function renderEntries(form) {
   return $row;
 }
 
-var $journalRow = document.querySelector('.journal');
+var $journalContainer = document.querySelector('#journal');
 
 function handelUnloadEvent(event) {
   for (var i = 0; i < data.entries.length; i++) {
     var final = renderEntries(data.entries[i]);
-    $journalRow.appendChild(final);
+    $journalContainer.appendChild(final);
   }
 }
 
