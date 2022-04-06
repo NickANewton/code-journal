@@ -32,7 +32,7 @@ function handleSubmitEvent(event) {
 
   $journalContainer.insertBefore(renderEntries(form), document.querySelector('ul'));
   $placeHolderImage.setAttribute('src', 'images/placeholder-image-square.jpg');
-  $pElementNoEntries.className = 'no-entries hidden';
+  viewSwap('entries');
   $form.reset();
 }
 
@@ -89,6 +89,7 @@ function handelUnloadEvent(event) {
     var final = renderEntries(data.entries[i]);
     $journalContainer.appendChild(final);
   }
+  viewSwap(data.view);
 }
 
 window.addEventListener('DOMContentLoaded', handelUnloadEvent);
@@ -97,18 +98,24 @@ var $viewNodeList = document.querySelectorAll('.view');
 var $bodyElement = document.querySelector('body');
 
 function handleClickEvent(event) {
-  var $dataViewAttribute = event.target.getAttribute('data-view');
+  var $targetdataViewAttribute = event.target.getAttribute('data-view');
   if (event.target.matches('a')) {
-    for (var i = 0; i < $viewNodeList.length; i++) {
-      if ($dataViewAttribute === $viewNodeList[i].getAttribute('data-view')) {
-        $viewNodeList[i].className = 'container';
-      } else {
-        $viewNodeList[i].className = 'contianer hidden';
-
-      }
-
-    }
+    viewSwap($targetdataViewAttribute);
   }
 }
 
 $bodyElement.addEventListener('click', handleClickEvent);
+
+function viewSwap(viewName) {
+  if (data.entries === []) {
+    $pElementNoEntries.className = 'no-entries hidden';
+  }
+  for (var i = 0; i < $viewNodeList.length; i++) {
+    if (viewName === $viewNodeList[i].getAttribute('data-view')) {
+      $viewNodeList[i].setAttribute('class', 'container');
+      data.view = $viewNodeList[i].getAttribute('data-view');
+    } else {
+      $viewNodeList[i].setAttribute('class', 'contianer hidden');
+    }
+  }
+}
