@@ -2,30 +2,36 @@
 /* exported data */
 
 var $form = document.querySelector('form');
-var $image = document.querySelector('img');
-var $photo = document.querySelector('#photo');
-var $title = document.querySelector('#title');
-var $notes = document.querySelector('#notes');
+var $placeHolderImage = document.querySelector('img');
+var $inputImage = document.querySelector('#photo');
+var $inputTitle = document.querySelector('#title');
+var $inputNotes = document.querySelector('#notes');
 
 function handleInputEvent(event) {
-  if (event.target !== $photo) {
+  if (event.target !== $inputImage) {
     return;
   }
-  $image.setAttribute('src', $photo.value);
+  $placeHolderImage.setAttribute('src', $inputImage.value);
 }
 
 function handleSubmitEvent(event) {
+  event.preventDefault();
   if (event.target !== $form) {
     return;
   }
   var form = {
-    title: $title.value,
-    photoUrl: $photo.value,
-    notes: $notes.value
+    title: $inputTitle.value,
+    imageUrl: $inputImage.value,
+    notes: $inputNotes.value
   };
-  form.Id = data.nextEntryId;
+
+  form.id = data.nextEntryId;
   data.nextEntryId++;
   data.entries.unshift(form);
+
+  $journalRow.appendChild(renderEntries(form));
+  $placeHolderImage.setAttribute('src', 'images/placeholder-image-square.jpg');
+  $form.reset();
 }
 
 $form.addEventListener('submit', handleSubmitEvent);
@@ -64,7 +70,7 @@ function renderEntries(form) {
   $li2.setAttribute('class', 'column-half second');
 
   var $img = document.createElement('img');
-  $img.setAttribute('src', form.photoUrl);
+  $img.setAttribute('src', form.imageUrl);
 
   var $h2 = document.createElement('h2');
   $h2.textContent = form.title;
@@ -86,7 +92,11 @@ function renderEntries(form) {
 
 var $journalRow = document.querySelector('.journal');
 
-for (var i = 0; i < data.entries.length; i++) {
-  var final = renderEntries(data.entries[i]);
-  $journalRow.appendChild(final);
+function handelUnloadEvent(event) {
+  for (var i = 0; i < data.entries.length; i++) {
+    var final = renderEntries(data.entries[i]);
+    $journalRow.appendChild(final);
+  }
 }
+
+window.addEventListener('DOMContentLoaded', handelUnloadEvent);
