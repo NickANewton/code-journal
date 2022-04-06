@@ -100,3 +100,20 @@ function handelUnloadEvent(event) {
 }
 
 window.addEventListener('DOMContentLoaded', handelUnloadEvent);
+
+var $anchorNodeList = document.querySelectorAll('a');
+var $bodyElement = document.querySelector('body');
+
+function handleClickEvent(event) {
+  if (event.target.matches('a')) {
+    for (var i = 0; i < $anchorNodeList; i++) {
+      if (event.target === $anchorNodeList[i]) {
+        $anchorNodeList[i].className = 'container';
+      } else {
+        $anchorNodeList[i].className = 'container hidden';
+      }
+    }
+  }
+}
+
+$bodyElement.addEventListener('click', handleClickEvent);
