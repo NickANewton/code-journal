@@ -101,17 +101,20 @@ function handelUnloadEvent(event) {
 
 window.addEventListener('DOMContentLoaded', handelUnloadEvent);
 
-var $anchorNodeList = document.querySelectorAll('a');
+var $viewNodeList = document.querySelectorAll('.view');
 var $bodyElement = document.querySelector('body');
 
 function handleClickEvent(event) {
+  var $dataViewAttribute = event.target.getAttribute('data-view');
   if (event.target.matches('a')) {
-    for (var i = 0; i < $anchorNodeList; i++) {
-      if (event.target === $anchorNodeList[i]) {
-        $anchorNodeList[i].className = 'container';
+    for (var i = 0; i < $viewNodeList.length; i++) {
+      if ($dataViewAttribute === $viewNodeList[i].getAttribute('data-view')) {
+        $viewNodeList[i].className = 'container';
       } else {
-        $anchorNodeList[i].className = 'container hidden';
+        $viewNodeList[i].className = 'contianer hidden';
+
       }
+
     }
   }
 }
