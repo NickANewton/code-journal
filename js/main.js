@@ -30,7 +30,7 @@ function handleSubmitEvent(event) {
   data.nextEntryId++;
   data.entries.unshift(form);
 
-  $journalContainer.appendChild(renderEntries(form));
+  $journalContainer.insertBefore(renderEntries(form), document.querySelector('ul'));
   $placeHolderImage.setAttribute('src', 'images/placeholder-image-square.jpg');
   $pElementNoEntries.className = 'no-entries hidden';
   $form.reset();
@@ -41,8 +41,6 @@ $form.addEventListener('input', handleInputEvent);
 
 function renderEntries(form) {
   /*
-       <div class="row journal">
-        <div class="column-full">
           <ul class="mb-25">
             <li class="column-half first">
               <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png" alt="pika">
@@ -56,11 +54,6 @@ function renderEntries(form) {
           </ul>
           <ul>
   */
-  var $row = document.createElement('div');
-  $row.setAttribute('class', 'row');
-
-  var $columnFull = document.createElement('div');
-  $columnFull.setAttribute('class', 'column-full');
 
   var $ul = document.createElement('ul');
   $ul.setAttribute('class', 'mb-25');
@@ -80,16 +73,13 @@ function renderEntries(form) {
   var $p = document.createElement('p');
   $p.textContent = form.notes;
 
-  $columnFull.appendChild($ul);
   $ul.appendChild($li);
   $li.appendChild($img);
   $ul.appendChild($li2);
   $li2.appendChild($h2);
   $li2.appendChild($p);
 
-  $row.appendChild($columnFull);
-
-  return $row;
+  return $ul;
 }
 
 var $journalContainer = document.querySelector('#journal');
