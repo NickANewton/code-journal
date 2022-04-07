@@ -57,6 +57,7 @@ function renderEntries(form) {
   */
 
   var $li = document.createElement('li');
+  $li.setAttribute('class', 'mb-25');
 
   var $img = document.createElement('img');
   $img.setAttribute('src', form.imageUrl);
@@ -69,16 +70,16 @@ function renderEntries(form) {
   $h2.setAttribute('class', 'display-flex justify-between');
   $h2.textContent = form.title;
 
-  var $icon = document.createElement('i');
-  $icon.setAttribute('class', 'fas fa-pen');
-  $icon.setAttribute('data-view', 'entry-form');
+  var $createIcon = document.createElement('i');
+  $createIcon.setAttribute('class', 'fas fa-pen');
+  $createIcon.setAttribute('data-view', 'entry-form');
 
   var $p = document.createElement('p');
   $p.textContent = form.notes;
 
   $li.appendChild($img);
   $div.appendChild($h2);
-  $h2.appendChild($icon);
+  $h2.appendChild($createIcon);
   $div.appendChild($p);
   $li.appendChild($div);
 
@@ -110,8 +111,13 @@ function handleAnchorClickEvent(event) {
 function handleIconCLickEvent(event) {
   var $iconDataViewAttribute = event.target.getAttribute('data-view');
   if (event.target.matches('i')) {
-    viewSwap($iconDataViewAttribute);
+    for (var i = 0; i < data.entries.length; i++) {
+      if (event.target.closest('h2').textContent === data.entries[i].title) {
+        data.editing = data.entries[i].id;
+      }
+    }
   }
+  viewSwap($iconDataViewAttribute);
 }
 
 $ul.addEventListener('click', handleIconCLickEvent);
