@@ -79,6 +79,8 @@ function renderEntries(form) {
   $li2.appendChild($h2);
   $li2.appendChild($p);
 
+  $pElementNoEntries.className = 'no-entries hidden';
+
   return $ul;
 }
 
@@ -107,9 +109,6 @@ function handleClickEvent(event) {
 $bodyElement.addEventListener('click', handleClickEvent);
 
 function viewSwap(viewName) {
-  if (data.entries === []) {
-    $pElementNoEntries.className = 'no-entries hidden';
-  }
   for (var i = 0; i < $viewNodeList.length; i++) {
     if (viewName === $viewNodeList[i].getAttribute('data-view')) {
       $viewNodeList[i].setAttribute('class', 'container');
