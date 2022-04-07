@@ -7,6 +7,7 @@ var $inputImage = document.querySelector('#photo');
 var $inputTitle = document.querySelector('#title');
 var $inputNotes = document.querySelector('#notes');
 var $divElementNoEntries = document.querySelector('.no-entries');
+var $ul = document.querySelector('ul');
 
 function handleInputEvent(event) {
   if (event.target !== $inputImage) {
@@ -30,7 +31,6 @@ function handleSubmitEvent(event) {
   data.nextEntryId++;
   data.entries.unshift(form);
 
-  /* $li.insertBefore(renderEntries(form), document.querySelector('li')); */
   $ul.prepend(renderEntries(form));
   $placeHolderImage.setAttribute('src', 'images/placeholder-image-square.jpg');
   viewSwap('entries');
@@ -69,20 +69,16 @@ function renderEntries(form) {
   $h2.setAttribute('class', 'display-flex justify-between');
   $h2.textContent = form.title;
 
-  var $anchor = document.createElement('a');
-  $anchor.setAttribute('href', '#');
-  $anchor.setAttribute('data-view', 'edit');
-
   var $icon = document.createElement('i');
   $icon.setAttribute('class', 'fas fa-pen');
+  $icon.setAttribute('data-view', 'entry-form');
 
   var $p = document.createElement('p');
   $p.textContent = form.notes;
 
   $li.appendChild($img);
   $div.appendChild($h2);
-  $anchor.appendChild($icon);
-  $h2.appendChild($anchor);
+  $h2.appendChild($icon);
   $div.appendChild($p);
   $li.appendChild($div);
 
@@ -90,8 +86,6 @@ function renderEntries(form) {
 
   return $li;
 }
-
-var $ul = document.querySelector('ul');
 
 function handelUnloadEvent(event) {
   for (var i = 0; i < data.entries.length; i++) {
@@ -106,14 +100,23 @@ window.addEventListener('DOMContentLoaded', handelUnloadEvent);
 var $viewNodeList = document.querySelectorAll('.view');
 var $bodyElement = document.querySelector('body');
 
-function handleClickEvent(event) {
-  var $targetdataViewAttribute = event.target.getAttribute('data-view');
+function handleAnchorClickEvent(event) {
+  var $anchorDataViewAttribute = event.target.getAttribute('data-view');
   if (event.target.matches('a')) {
-    viewSwap($targetdataViewAttribute);
+    viewSwap($anchorDataViewAttribute);
   }
 }
 
-$bodyElement.addEventListener('click', handleClickEvent);
+function handleIconCLickEvent(event) {
+  var $iconDataViewAttribute = event.target.getAttribute('data-view');
+  if (event.target.matches('i')) {
+    viewSwap($iconDataViewAttribute);
+  }
+}
+
+$ul.addEventListener('click', handleIconCLickEvent);
+
+$bodyElement.addEventListener('click', handleAnchorClickEvent);
 
 function viewSwap(viewName) {
   for (var i = 0; i < $viewNodeList.length; i++) {
@@ -125,3 +128,11 @@ function viewSwap(viewName) {
     }
   }
 }
+
+/* function renderEditForm() {
+
+  $inputImage = document.querySelector('#photo');
+  $inputTitle = document.querySelector('#title');
+  $inputNotes = document.querySelector('#notes');
+
+} */
