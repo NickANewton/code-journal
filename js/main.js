@@ -8,6 +8,7 @@ var $inputTitle = document.querySelector('#title');
 var $inputNotes = document.querySelector('#notes');
 var $divElementNoEntries = document.querySelector('.no-entries');
 var $ul = document.querySelector('ul');
+var $h1NewEntry = document.querySelector('.new-entry');
 
 function handleInputEvent(event) {
   if (event.target !== $inputImage) {
@@ -111,13 +112,14 @@ function handleAnchorClickEvent(event) {
 function handleIconCLickEvent(event) {
   var $iconDataViewAttribute = event.target.getAttribute('data-view');
   if (event.target.matches('i')) {
+    viewSwap($iconDataViewAttribute);
     for (var i = 0; i < data.entries.length; i++) {
       if (event.target.closest('h2').textContent === data.entries[i].title) {
         data.editing = data.entries[i].id;
+        renderEditForm(data.entries[i]);
       }
     }
   }
-  viewSwap($iconDataViewAttribute);
 }
 
 $ul.addEventListener('click', handleIconCLickEvent);
@@ -135,10 +137,9 @@ function viewSwap(viewName) {
   }
 }
 
-/* function renderEditForm() {
-
-  $inputImage = document.querySelector('#photo');
-  $inputTitle = document.querySelector('#title');
-  $inputNotes = document.querySelector('#notes');
-
-} */
+function renderEditForm(entry) {
+  $h1NewEntry.textContent = 'Edit Entry';
+  $inputImage.value = entry.imageUrl;
+  $inputTitle.value = entry.title;
+  $inputNotes.value = entry.notes;
+}
