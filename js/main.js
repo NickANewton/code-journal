@@ -30,7 +30,8 @@ function handleSubmitEvent(event) {
   data.nextEntryId++;
   data.entries.unshift(form);
 
-  $journalContainer.insertBefore(renderEntries(form), document.querySelector('ul'));
+  /* $li.insertBefore(renderEntries(form), document.querySelector('li')); */
+  $ul.prepend(renderEntries(form));
   $placeHolderImage.setAttribute('src', 'images/placeholder-image-square.jpg');
   viewSwap('entries');
   $form.reset();
@@ -55,17 +56,15 @@ function renderEntries(form) {
           <ul>
   */
 
-  var $ul = document.createElement('ul');
-  $ul.setAttribute('class', 'mb-25');
-
   var $li = document.createElement('li');
-  $li.setAttribute('class', 'column-half first');
-
-  var $li2 = document.createElement('li');
-  $li2.setAttribute('class', 'column-half second');
+  $li.setAttribute('class', 'display-flex');
 
   var $img = document.createElement('img');
   $img.setAttribute('src', form.imageUrl);
+  $img.setAttribute('class', 'column-half');
+
+  var $div = document.createElement('div');
+  $div.setAttribute('class', 'column-half');
 
   var $h2 = document.createElement('h2');
   $h2.textContent = form.title;
@@ -73,23 +72,22 @@ function renderEntries(form) {
   var $p = document.createElement('p');
   $p.textContent = form.notes;
 
-  $ul.appendChild($li);
   $li.appendChild($img);
-  $ul.appendChild($li2);
-  $li2.appendChild($h2);
-  $li2.appendChild($p);
+  $div.appendChild($h2);
+  $div.appendChild($p);
+  $li.appendChild($div);
 
   $pElementNoEntries.className = 'no-entries hidden';
 
-  return $ul;
+  return $li;
 }
 
-var $journalContainer = document.querySelector('#journal');
+var $ul = document.querySelector('ul');
 
 function handelUnloadEvent(event) {
   for (var i = 0; i < data.entries.length; i++) {
     var final = renderEntries(data.entries[i]);
-    $journalContainer.appendChild(final);
+    $ul.appendChild(final);
   }
   viewSwap(data.view);
 }
