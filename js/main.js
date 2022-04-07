@@ -9,6 +9,10 @@ var $inputNotes = document.querySelector('#notes');
 var $divElementNoEntries = document.querySelector('.no-entries');
 var $ul = document.querySelector('ul');
 var $h1NewEntry = document.querySelector('.new-entry');
+var $viewNodeList = document.querySelectorAll('.view');
+var $bodyElement = document.querySelector('body');
+
+$form.addEventListener('input', handleInputEvent);
 
 function handleInputEvent(event) {
   if (event.target !== $inputImage) {
@@ -16,6 +20,8 @@ function handleInputEvent(event) {
   }
   $placeHolderImage.setAttribute('src', $inputImage.value);
 }
+
+$form.addEventListener('submit', handleSubmitEvent);
 
 function handleSubmitEvent(event) {
   event.preventDefault();
@@ -27,34 +33,33 @@ function handleSubmitEvent(event) {
     imageUrl: $inputImage.value,
     notes: $inputNotes.value
   };
-
-  form.id = data.nextEntryId;
-  data.nextEntryId++;
-  data.entries.unshift(form);
-
-  $ul.prepend(renderEntries(form));
+  if (data.editing !== null) {
+    data.entries.replaceWith(renderEditForm(data.entries));
+  } else {
+    form.id = data.nextEntryId;
+    data.nextEntryId++;
+    data.entries.unshift(form);
+    $ul.prepend(renderEntries(form));
+  }
   $placeHolderImage.setAttribute('src', 'images/placeholder-image-square.jpg');
   viewSwap('entries');
   $form.reset();
 }
 
-$form.addEventListener('submit', handleSubmitEvent);
-$form.addEventListener('input', handleInputEvent);
-
 function renderEntries(form) {
   /*
-          <ul class="mb-25">
-            <li class="column-half first">
-              <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png" alt="pika">
+            <li class="mb-25">
+              <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png" class="column-half" alt="pika">
+              <div class="column-half">
+                <h2>
+                  Pikachu
+                  <i class="fas fa-pen" data-view="entry-form"></i>
+                </h2>
+                <p>Pikachu is a fictional species in the Pokémon media franchise. Designed by Atsuko Nishida and Ken Sugimori, Pikachu
+                first appeared in the 1996 Japanese video games Pokémon Red and Green created by Game Freak and Nintendo, which were
+                released outside of Japan in 1998 as Pokémon Red and Blue.</p>
+              </div>
             </li>
-            <li class="column-half second">
-              <h2>Pikachu</h2>
-              <p>Pikachu is a fictional species in the Pokémon media franchise. Designed by Atsuko Nishida and Ken Sugimori, Pikachu
-              first appeared in the 1996 Japanese video games Pokémon Red and Green created by Game Freak and Nintendo, which were
-              released outside of Japan in 1998 as Pokémon Red and Blue.</p>
-            </li>
-          </ul>
-          <ul>
   */
 
   var $li = document.createElement('li');
@@ -89,6 +94,8 @@ function renderEntries(form) {
   return $li;
 }
 
+window.addEventListener('DOMContentLoaded', handelUnloadEvent);
+
 function handelUnloadEvent(event) {
   for (var i = 0; i < data.entries.length; i++) {
     var final = renderEntries(data.entries[i]);
@@ -97,10 +104,7 @@ function handelUnloadEvent(event) {
   viewSwap(data.view);
 }
 
-window.addEventListener('DOMContentLoaded', handelUnloadEvent);
-
-var $viewNodeList = document.querySelectorAll('.view');
-var $bodyElement = document.querySelector('body');
+$bodyElement.addEventListener('click', handleAnchorClickEvent);
 
 function handleAnchorClickEvent(event) {
   var $anchorDataViewAttribute = event.target.getAttribute('data-view');
@@ -109,23 +113,6 @@ function handleAnchorClickEvent(event) {
   }
 }
 
-function handleIconCLickEvent(event) {
-  var $iconDataViewAttribute = event.target.getAttribute('data-view');
-  if (event.target.matches('i')) {
-    viewSwap($iconDataViewAttribute);
-    for (var i = 0; i < data.entries.length; i++) {
-      if (event.target.closest('h2').textContent === data.entries[i].title) {
-        data.editing = data.entries[i].id;
-        renderEditForm(data.entries[i]);
-      }
-    }
-  }
-}
-
-$ul.addEventListener('click', handleIconCLickEvent);
-
-$bodyElement.addEventListener('click', handleAnchorClickEvent);
-
 function viewSwap(viewName) {
   for (var i = 0; i < $viewNodeList.length; i++) {
     if (viewName === $viewNodeList[i].getAttribute('data-view')) {
@@ -133,6 +120,26 @@ function viewSwap(viewName) {
       data.view = $viewNodeList[i].getAttribute('data-view');
     } else {
       $viewNodeList[i].setAttribute('class', 'contianer hidden');
+    }
+  }
+}
+
+$ul.addEventListener('click', handleIconCLickEvent);
+
+function handleIconCLickEvent(event) {
+  var $iconDataViewAttribute = event.target.getAttribute('data-view');
+  var $closestH2 = event.target.closest('h2').textContent;
+  if (event.target.matches('i')) {
+    viewSwap($iconDataViewAttribute);
+    entryId($closestH2);
+  }
+}
+
+function entryId(textContent) {
+  for (var i = 0; i < data.entries.length; i++) {
+    if (textContent === data.entries[i].title) {
+      data.editing = data.entries[i].id;
+      renderEditForm(data.entries[i]);
     }
   }
 }
