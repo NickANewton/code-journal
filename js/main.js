@@ -57,7 +57,6 @@ function renderEntries(form) {
   */
 
   var $li = document.createElement('li');
-  $li.setAttribute('class', 'display-flex');
 
   var $img = document.createElement('img');
   $img.setAttribute('src', form.imageUrl);

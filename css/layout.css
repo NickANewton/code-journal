@@ -36,4 +36,8 @@
     height: auto;
     object-fit: contain;
   }
+
+  li {
+    display: flex;
+  }
 }
