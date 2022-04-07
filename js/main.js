@@ -6,7 +6,7 @@ var $placeHolderImage = document.querySelector('img');
 var $inputImage = document.querySelector('#photo');
 var $inputTitle = document.querySelector('#title');
 var $inputNotes = document.querySelector('#notes');
-var $pElementNoEntries = document.querySelector('.no-entries');
+var $divElementNoEntries = document.querySelector('.no-entries');
 
 function handleInputEvent(event) {
   if (event.target !== $inputImage) {
@@ -66,17 +66,26 @@ function renderEntries(form) {
   $div.setAttribute('class', 'column-half');
 
   var $h2 = document.createElement('h2');
+  $h2.setAttribute('class', 'display-flex justify-between');
   $h2.textContent = form.title;
+
+  var $anchor = document.createElement('a');
+  $anchor.setAttribute('class', '#');
+
+  var $icon = document.createElement('i');
+  $icon.setAttribute('class', 'fas fa-pen');
 
   var $p = document.createElement('p');
   $p.textContent = form.notes;
 
   $li.appendChild($img);
   $div.appendChild($h2);
+  $anchor.appendChild($icon);
+  $h2.appendChild($anchor);
   $div.appendChild($p);
   $li.appendChild($div);
 
-  $pElementNoEntries.className = 'no-entries hidden';
+  $divElementNoEntries.className = 'no-entries hidden';
 
   return $li;
 }

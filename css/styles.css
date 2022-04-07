@@ -132,3 +132,7 @@ a {
 .pl-15 {
   padding-left: 15px;
 }
+
+.justify-between {
+  justify-content: space-between;
+}
