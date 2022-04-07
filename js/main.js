@@ -70,7 +70,8 @@ function renderEntries(form) {
   $h2.textContent = form.title;
 
   var $anchor = document.createElement('a');
-  $anchor.setAttribute('class', '#');
+  $anchor.setAttribute('href', '#');
+  $anchor.setAttribute('data-view', 'edit');
 
   var $icon = document.createElement('i');
   $icon.setAttribute('class', 'fas fa-pen');
