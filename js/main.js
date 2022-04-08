@@ -33,14 +33,15 @@ function handleSubmitEvent(event) {
     imageUrl: $inputImage.value,
     notes: $inputNotes.value
   };
-  if (data.editing !== null) {
-    data.entries.replaceWith(renderEditForm(data.entries));
-  } else {
-    form.id = data.nextEntryId;
-    data.nextEntryId++;
-    data.entries.unshift(form);
-    $ul.prepend(renderEntries(form));
-  }
+
+  /* if (data.editing !== null) {
+
+  } else { */
+  form.id = data.nextEntryId;
+  data.nextEntryId++;
+  data.entries.unshift(form);
+  $ul.prepend(renderEntries(form));
+
   $placeHolderImage.setAttribute('src', 'images/placeholder-image-square.jpg');
   viewSwap('entries');
   $form.reset();
@@ -64,6 +65,7 @@ function renderEntries(form) {
 
   var $li = document.createElement('li');
   $li.setAttribute('class', 'mb-25');
+  $li.setAttribute('data-entry-id', (data.nextEntryId - 1));
 
   var $img = document.createElement('img');
   $img.setAttribute('src', form.imageUrl);
@@ -128,16 +130,16 @@ $ul.addEventListener('click', handleIconCLickEvent);
 
 function handleIconCLickEvent(event) {
   var $iconDataViewAttribute = event.target.getAttribute('data-view');
-  var $closestH2 = event.target.closest('h2').textContent;
+  var $liDataEntryId = event.target.closest('li').getAttribute('data-entry-id');
   if (event.target.matches('i')) {
     viewSwap($iconDataViewAttribute);
-    entryId($closestH2);
+    entryId($liDataEntryId);
   }
 }
 
-function entryId(textContent) {
+function entryId(entryId) {
   for (var i = 0; i < data.entries.length; i++) {
-    if (textContent === data.entries[i].title) {
+    if (entryId === data.entries[i].id) {
       data.editing = data.entries[i].id;
       renderEditForm(data.entries[i]);
     }
@@ -147,6 +149,7 @@ function entryId(textContent) {
 function renderEditForm(entry) {
   $h1NewEntry.textContent = 'Edit Entry';
   $inputImage.value = entry.imageUrl;
+  $placeHolderImage.setAttribute('src', entry.imageUrl);
   $inputTitle.value = entry.title;
   $inputNotes.value = entry.notes;
 }
