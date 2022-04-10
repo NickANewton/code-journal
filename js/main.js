@@ -28,19 +28,25 @@ function handleSubmitEvent(event) {
   if (event.target !== $form) {
     return;
   }
-  var form = {
-    title: $inputTitle.value,
-    imageUrl: $inputImage.value,
-    notes: $inputNotes.value
-  };
+  if (!data.editing) {
 
-  /* if (data.editing !== null) {
+    var form = {
+      title: $inputTitle.value,
+      imageUrl: $inputImage.value,
+      notes: $inputNotes.value,
+      id: data.nextEntryId
+    };
+    data.nextEntryId++;
 
-  } else { */
-  form.id = data.nextEntryId;
-  data.nextEntryId++;
-  data.entries.unshift(form);
-  $ul.prepend(renderEntries(form));
+    data.entries.unshift(form);
+    $ul.prepend(renderEntries(form));
+
+  } else {
+    data.editing.title = $inputTitle.value;
+    data.editing.imageUrl = $inputImage.value;
+    data.editing.notes = $inputNotes.value;
+    data.editing = null;
+  }
 
   $placeHolderImage.setAttribute('src', 'images/placeholder-image-square.jpg');
   viewSwap('entries');
@@ -131,17 +137,18 @@ $ul.addEventListener('click', handleIconCLickEvent);
 function handleIconCLickEvent(event) {
   var $iconDataViewAttribute = event.target.getAttribute('data-view');
   var $liDataEntryId = event.target.closest('li').getAttribute('data-entry-id');
+  $liDataEntryId = Number($liDataEntryId);
   if (event.target.matches('i')) {
     viewSwap($iconDataViewAttribute);
-    entryId($liDataEntryId);
+    getEntryData($liDataEntryId);
   }
 }
 
-function entryId(entryId) {
+function getEntryData(entryId) {
   for (var i = 0; i < data.entries.length; i++) {
     if (entryId === data.entries[i].id) {
-      data.editing = data.entries[i].id;
-      renderEditForm(data.entries[i]);
+      data.editing = data.entries[i];
+      renderEditForm(data.editing);
     }
   }
 }
