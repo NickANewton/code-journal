@@ -45,7 +45,11 @@ function handleSubmitEvent(event) {
     data.editing.title = $inputTitle.value;
     data.editing.imageUrl = $inputImage.value;
     data.editing.notes = $inputNotes.value;
+    var editingId = data.editing.id;
+    var $currentLi = document.querySelector('[data-entry-id="' + editingId + '"]');
+    $currentLi.replaceWith(renderEntries(data.editing));
     data.editing = null;
+    $h1NewEntry.textContent = 'New Entry';
   }
 
   $placeHolderImage.setAttribute('src', 'images/placeholder-image-square.jpg');
@@ -71,7 +75,6 @@ function renderEntries(form) {
 
   var $li = document.createElement('li');
   $li.setAttribute('class', 'mb-25');
-  $li.setAttribute('data-entry-id', (data.nextEntryId - 1));
 
   var $img = document.createElement('img');
   $img.setAttribute('src', form.imageUrl);
@@ -98,6 +101,8 @@ function renderEntries(form) {
   $li.appendChild($div);
 
   $divElementNoEntries.className = 'no-entries hidden';
+
+  $li.dataset.entryId = form.id;
 
   return $li;
 }
@@ -136,11 +141,13 @@ $ul.addEventListener('click', handleIconCLickEvent);
 
 function handleIconCLickEvent(event) {
   var $iconDataViewAttribute = event.target.getAttribute('data-view');
-  var $liDataEntryId = event.target.closest('li').getAttribute('data-entry-id');
+  var $eventClosestLi = event.target.closest('li');
+  var $liDataEntryId = $eventClosestLi.dataset.entryId;
   $liDataEntryId = Number($liDataEntryId);
   if (event.target.matches('i')) {
     viewSwap($iconDataViewAttribute);
     getEntryData($liDataEntryId);
+    renderEditForm(data.editing);
   }
 }
 
@@ -148,7 +155,6 @@ function getEntryData(entryId) {
   for (var i = 0; i < data.entries.length; i++) {
     if (entryId === data.entries[i].id) {
       data.editing = data.entries[i];
-      renderEditForm(data.editing);
     }
   }
 }
