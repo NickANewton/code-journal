@@ -12,6 +12,9 @@ var $h1NewEntry = document.querySelector('.new-entry');
 var $viewNodeList = document.querySelectorAll('.view');
 var $bodyElement = document.querySelector('body');
 var $deleteEntryAnchor = document.querySelector('.delete-entry');
+var $modal = document.querySelector('.modal');
+var $cancelBtn = document.querySelector('.cancel');
+// var $confirmBtn = document.querySelector('.confirm');
 
 $form.addEventListener('input', handleInputEvent);
 
@@ -167,4 +170,30 @@ function renderEditForm(entry) {
   $placeHolderImage.setAttribute('src', entry.imageUrl);
   $inputTitle.value = entry.title;
   $inputNotes.value = entry.notes;
+}
+$form.addEventListener('click', handleDeleteClickEvent);
+
+function handleDeleteClickEvent(event) {
+  if (event.target.matches('a')) {
+    $modal.className = 'modal';
+  }
+}
+
+$modal.addEventListener('click', handleModalBtnsClickEvent);
+
+function handleModalBtnsClickEvent(event) {
+
+  var $anchorDataViewAttribute = event.target.getAttribute('data-view');
+  // var $eventClosestLi = event.target.closest('li');
+  // var $liDataEntryId = $eventClosestLi.dataset.entryId;
+  // // $liDataEntryId = Number($liDataEntryId);
+  if (event.target === $cancelBtn) {
+    viewSwap($anchorDataViewAttribute);
+    $modal.className = 'modal hidden';
+  }
+  // else if (event.target === $confirmBtn)
+  // viewSwap($anchorDataViewAttribute);
+  // $deleteEntryAnchor.className = 'delete-entry';
+  // getEntryData($liDataEntryId);
+  // viewSwap($anchorDataViewAttribute);
 }

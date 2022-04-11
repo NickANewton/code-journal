@@ -141,3 +141,33 @@ a {
   color: rgb(223, 70, 70);
   text-decoration: underline;
 }
+
+.modal {
+  width: 100vw;
+  height: 100vh;
+  background: rgb(0 0 0 / 30%);
+  position: absolute;
+  display: flex;
+}
+
+.pop-up {
+  width: 30%;
+  height: 130px;
+  background-color: white;
+}
+
+.pop-up-btns > button {
+  height: 30px;
+  width: 80px;
+  border: none;
+  border-radius: 5px;
+}
+
+.cancel {
+  background-color: rgb(182 182 182);
+}
+
+.confirm {
+  background-color: rgb(220 38 38);
+  color: white;
+}
