@@ -11,6 +11,7 @@ var $ul = document.querySelector('ul');
 var $h1NewEntry = document.querySelector('.new-entry');
 var $viewNodeList = document.querySelectorAll('.view');
 var $bodyElement = document.querySelector('body');
+var $deleteEntryAnchor = document.querySelector('.delete-entry');
 
 $form.addEventListener('input', handleInputEvent);
 
@@ -146,6 +147,7 @@ function handleIconCLickEvent(event) {
   $liDataEntryId = Number($liDataEntryId);
   if (event.target.matches('i')) {
     viewSwap($iconDataViewAttribute);
+    $deleteEntryAnchor.className = 'delete-entry';
     getEntryData($liDataEntryId);
     renderEditForm(data.editing);
   }

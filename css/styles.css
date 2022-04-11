@@ -136,3 +136,8 @@ a {
 .justify-between {
   justify-content: space-between;
 }
+
+.delete-entry {
+  color: rgb(223, 70, 70);
+  text-decoration: underline;
+}
