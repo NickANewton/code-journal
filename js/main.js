@@ -6,7 +6,13 @@ var $placeHolderImage = document.querySelector('img');
 var $inputImage = document.querySelector('#photo');
 var $inputTitle = document.querySelector('#title');
 var $inputNotes = document.querySelector('#notes');
-var $pElementNoEntries = document.querySelector('.no-entries');
+var $divElementNoEntries = document.querySelector('.no-entries');
+var $ul = document.querySelector('ul');
+var $h1NewEntry = document.querySelector('.new-entry');
+var $viewNodeList = document.querySelectorAll('.view');
+var $bodyElement = document.querySelector('body');
+
+$form.addEventListener('input', handleInputEvent);
 
 function handleInputEvent(event) {
   if (event.target !== $inputImage) {
@@ -15,48 +21,60 @@ function handleInputEvent(event) {
   $placeHolderImage.setAttribute('src', $inputImage.value);
 }
 
+$form.addEventListener('submit', handleSubmitEvent);
+
 function handleSubmitEvent(event) {
   event.preventDefault();
   if (event.target !== $form) {
     return;
   }
-  var form = {
-    title: $inputTitle.value,
-    imageUrl: $inputImage.value,
-    notes: $inputNotes.value
-  };
+  if (!data.editing) {
 
-  form.id = data.nextEntryId;
-  data.nextEntryId++;
-  data.entries.unshift(form);
+    var form = {
+      title: $inputTitle.value,
+      imageUrl: $inputImage.value,
+      notes: $inputNotes.value,
+      id: data.nextEntryId
+    };
+    data.nextEntryId++;
 
-  /* $li.insertBefore(renderEntries(form), document.querySelector('li')); */
-  $ul.prepend(renderEntries(form));
+    data.entries.unshift(form);
+    $ul.prepend(renderEntries(form));
+
+  } else {
+    data.editing.title = $inputTitle.value;
+    data.editing.imageUrl = $inputImage.value;
+    data.editing.notes = $inputNotes.value;
+    var editingId = data.editing.id;
+    var $currentLi = document.querySelector('[data-entry-id="' + editingId + '"]');
+    $currentLi.replaceWith(renderEntries(data.editing));
+    data.editing = null;
+    $h1NewEntry.textContent = 'New Entry';
+  }
+
   $placeHolderImage.setAttribute('src', 'images/placeholder-image-square.jpg');
   viewSwap('entries');
   $form.reset();
 }
 
-$form.addEventListener('submit', handleSubmitEvent);
-$form.addEventListener('input', handleInputEvent);
-
 function renderEntries(form) {
   /*
-          <ul class="mb-25">
-            <li class="column-half first">
-              <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png" alt="pika">
+            <li class="mb-25">
+              <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png" class="column-half" alt="pika">
+              <div class="column-half">
+                <h2>
+                  Pikachu
+                  <i class="fas fa-pen" data-view="entry-form"></i>
+                </h2>
+                <p>Pikachu is a fictional species in the Pokémon media franchise. Designed by Atsuko Nishida and Ken Sugimori, Pikachu
+                first appeared in the 1996 Japanese video games Pokémon Red and Green created by Game Freak and Nintendo, which were
+                released outside of Japan in 1998 as Pokémon Red and Blue.</p>
+              </div>
             </li>
-            <li class="column-half second">
-              <h2>Pikachu</h2>
-              <p>Pikachu is a fictional species in the Pokémon media franchise. Designed by Atsuko Nishida and Ken Sugimori, Pikachu
-              first appeared in the 1996 Japanese video games Pokémon Red and Green created by Game Freak and Nintendo, which were
-              released outside of Japan in 1998 as Pokémon Red and Blue.</p>
-            </li>
-          </ul>
-          <ul>
   */
 
   var $li = document.createElement('li');
+  $li.setAttribute('class', 'mb-25');
 
   var $img = document.createElement('img');
   $img.setAttribute('src', form.imageUrl);
@@ -66,22 +84,30 @@ function renderEntries(form) {
   $div.setAttribute('class', 'column-half');
 
   var $h2 = document.createElement('h2');
+  $h2.setAttribute('class', 'display-flex justify-between');
   $h2.textContent = form.title;
+
+  var $createIcon = document.createElement('i');
+  $createIcon.setAttribute('class', 'fas fa-pen');
+  $createIcon.setAttribute('data-view', 'entry-form');
 
   var $p = document.createElement('p');
   $p.textContent = form.notes;
 
   $li.appendChild($img);
   $div.appendChild($h2);
+  $h2.appendChild($createIcon);
   $div.appendChild($p);
   $li.appendChild($div);
 
-  $pElementNoEntries.className = 'no-entries hidden';
+  $divElementNoEntries.className = 'no-entries hidden';
+
+  $li.dataset.entryId = form.id;
 
   return $li;
 }
 
-var $ul = document.querySelector('ul');
+window.addEventListener('DOMContentLoaded', handelUnloadEvent);
 
 function handelUnloadEvent(event) {
   for (var i = 0; i < data.entries.length; i++) {
@@ -91,19 +117,14 @@ function handelUnloadEvent(event) {
   viewSwap(data.view);
 }
 
-window.addEventListener('DOMContentLoaded', handelUnloadEvent);
+$bodyElement.addEventListener('click', handleAnchorClickEvent);
 
-var $viewNodeList = document.querySelectorAll('.view');
-var $bodyElement = document.querySelector('body');
-
-function handleClickEvent(event) {
-  var $targetdataViewAttribute = event.target.getAttribute('data-view');
+function handleAnchorClickEvent(event) {
+  var $anchorDataViewAttribute = event.target.getAttribute('data-view');
   if (event.target.matches('a')) {
-    viewSwap($targetdataViewAttribute);
+    viewSwap($anchorDataViewAttribute);
   }
 }
-
-$bodyElement.addEventListener('click', handleClickEvent);
 
 function viewSwap(viewName) {
   for (var i = 0; i < $viewNodeList.length; i++) {
@@ -114,4 +135,34 @@ function viewSwap(viewName) {
       $viewNodeList[i].setAttribute('class', 'contianer hidden');
     }
   }
+}
+
+$ul.addEventListener('click', handleIconCLickEvent);
+
+function handleIconCLickEvent(event) {
+  var $iconDataViewAttribute = event.target.getAttribute('data-view');
+  var $eventClosestLi = event.target.closest('li');
+  var $liDataEntryId = $eventClosestLi.dataset.entryId;
+  $liDataEntryId = Number($liDataEntryId);
+  if (event.target.matches('i')) {
+    viewSwap($iconDataViewAttribute);
+    getEntryData($liDataEntryId);
+    renderEditForm(data.editing);
+  }
+}
+
+function getEntryData(entryId) {
+  for (var i = 0; i < data.entries.length; i++) {
+    if (entryId === data.entries[i].id) {
+      data.editing = data.entries[i];
+    }
+  }
+}
+
+function renderEditForm(entry) {
+  $h1NewEntry.textContent = 'Edit Entry';
+  $inputImage.value = entry.imageUrl;
+  $placeHolderImage.setAttribute('src', entry.imageUrl);
+  $inputTitle.value = entry.title;
+  $inputNotes.value = entry.notes;
 }
