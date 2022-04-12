@@ -104,7 +104,7 @@ function renderEntries(form) {
   $div.appendChild($p);
   $li.appendChild($div);
 
-  $divElementNoEntries.className = 'no-entries hidden';
+  $divElementNoEntries.classList.add('hidden');
 
   $li.dataset.entryId = form.id;
 
@@ -125,7 +125,7 @@ $bodyElement.addEventListener('click', handleAnchorClickEvent);
 
 function handleAnchorClickEvent(event) {
   var $anchorDataViewAttribute = event.target.getAttribute('data-view');
-  if (event.target.matches('a')) {
+  if (event.target.matches('a') && (!event.target.closest('form'))) {
     viewSwap($anchorDataViewAttribute);
   }
 }
@@ -175,7 +175,7 @@ $form.addEventListener('click', handleDeleteClickEvent);
 
 function handleDeleteClickEvent(event) {
   if (event.target.matches('a')) {
-    $modal.className = 'modal';
+    $modal.classList.remove('hidden');
   }
 }
 
@@ -185,7 +185,7 @@ function handleModalBtnsClickEvent(event) {
   var $anchorDataViewAttribute = event.target.getAttribute('data-view');
   if (event.target === $cancelBtn) {
     viewSwap($anchorDataViewAttribute);
-    $modal.className = 'modal hidden';
+    $modal.classList.add('hidden');
   }
   if (event.target === $confirmBtn) {
     var $deleteCurrentLi = document.querySelector('[data-entry-id="' + data.editing.id + '"]');
@@ -194,9 +194,10 @@ function handleModalBtnsClickEvent(event) {
     $deleteCurrentLi.remove();
     data.editing = null;
     viewSwap($anchorDataViewAttribute);
-    $modal.className = 'modal hidden';
-    if (data.entries === []) {
+    $modal.classList.add('hidden');
+    if (data.entries.length === 0) {
       $divElementNoEntries.classList.remove('hidden');
+      data.nextEntryId = 1;
     }
   }
 }

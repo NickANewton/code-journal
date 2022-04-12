@@ -36,8 +36,6 @@ textarea {
   height: 30px;
   width: 70px;
   font-size: 15px;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 600;
 }
 
 input,
@@ -118,6 +116,8 @@ ul {
 
 a {
   text-decoration: none;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
 }
 
 .color-white {
@@ -145,13 +145,13 @@ a {
 .modal {
   width: 100vw;
   height: 100vh;
-  background: rgb(0 0 0 / 30%);
+  background: rgb(0 0 0 / 70%);
   position: absolute;
   display: flex;
 }
 
 .pop-up {
-  width: 30%;
+  width: 320px;
   height: 130px;
   background-color: white;
   padding: 5px;
@@ -174,4 +174,16 @@ a {
 .confirm {
   background-color: rgb(220 38 38);
   color: white;
+}
+
+p {
+  font-size: 14px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.pop-up-btns {
+  padding: 12px;
 }
