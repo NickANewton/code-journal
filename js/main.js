@@ -195,6 +195,9 @@ function handleModalBtnsClickEvent(event) {
     data.editing = null;
     viewSwap($anchorDataViewAttribute);
     $modal.classList.add('hidden');
+    $h1NewEntry.textContent = 'New Entry';
+    $placeHolderImage.setAttribute('src', 'images/placeholder-image-square.jpg');
+    $form.reset();
     if (data.entries.length === 0) {
       $divElementNoEntries.classList.remove('hidden');
       data.nextEntryId = 1;
