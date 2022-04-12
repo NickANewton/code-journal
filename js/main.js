@@ -14,7 +14,7 @@ var $bodyElement = document.querySelector('body');
 var $deleteEntryAnchor = document.querySelector('.delete-entry');
 var $modal = document.querySelector('.modal');
 var $cancelBtn = document.querySelector('.cancel');
-// var $confirmBtn = document.querySelector('.confirm');
+var $confirmBtn = document.querySelector('.confirm');
 
 $form.addEventListener('input', handleInputEvent);
 
@@ -182,18 +182,21 @@ function handleDeleteClickEvent(event) {
 $modal.addEventListener('click', handleModalBtnsClickEvent);
 
 function handleModalBtnsClickEvent(event) {
-
   var $anchorDataViewAttribute = event.target.getAttribute('data-view');
-  // var $eventClosestLi = event.target.closest('li');
-  // var $liDataEntryId = $eventClosestLi.dataset.entryId;
-  // // $liDataEntryId = Number($liDataEntryId);
   if (event.target === $cancelBtn) {
     viewSwap($anchorDataViewAttribute);
     $modal.className = 'modal hidden';
   }
-  // else if (event.target === $confirmBtn)
-  // viewSwap($anchorDataViewAttribute);
-  // $deleteEntryAnchor.className = 'delete-entry';
-  // getEntryData($liDataEntryId);
-  // viewSwap($anchorDataViewAttribute);
+  if (event.target === $confirmBtn) {
+    var $deleteCurrentLi = document.querySelector('[data-entry-id="' + data.editing.id + '"]');
+    var indexOfEntries = data.entries.indexOf(data.editing);
+    data.entries.splice(indexOfEntries, 1);
+    $deleteCurrentLi.remove();
+    data.editing = null;
+    viewSwap($anchorDataViewAttribute);
+    $modal.className = 'modal hidden';
+    if (data.entries === []) {
+      $divElementNoEntries.classList.remove('hidden');
+    }
+  }
 }

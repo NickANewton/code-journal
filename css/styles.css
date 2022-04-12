@@ -154,17 +154,21 @@ a {
   width: 30%;
   height: 130px;
   background-color: white;
+  padding: 5px;
+  border-radius: 4px;
+  box-shadow: 5px 5px 5px rgb(68, 68, 68);
 }
 
-.pop-up-btns > button {
+.pop-up-btns > a {
   height: 30px;
-  width: 80px;
+  width: 90px;
   border: none;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 .cancel {
   background-color: rgb(182 182 182);
+  color: black;
 }
 
 .confirm {
