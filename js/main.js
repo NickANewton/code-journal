@@ -200,7 +200,6 @@ function handleModalBtnsClickEvent(event) {
     $form.reset();
     if (data.entries.length === 0) {
       $divElementNoEntries.classList.remove('hidden');
-      data.nextEntryId = 1;
     }
   }
 }
