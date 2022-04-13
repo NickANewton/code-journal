@@ -36,8 +36,6 @@ textarea {
   height: 30px;
   width: 70px;
   font-size: 15px;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 600;
 }
 
 input,
@@ -118,6 +116,8 @@ ul {
 
 a {
   text-decoration: none;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
 }
 
 .color-white {
@@ -135,4 +135,55 @@ a {
 
 .justify-between {
   justify-content: space-between;
+}
+
+.delete-entry {
+  color: rgb(223, 70, 70);
+  text-decoration: underline;
+}
+
+.modal {
+  width: 100vw;
+  height: 100vh;
+  background: rgb(0 0 0 / 70%);
+  position: absolute;
+  display: flex;
+}
+
+.pop-up {
+  width: 320px;
+  height: 130px;
+  background-color: white;
+  padding: 5px;
+  border-radius: 4px;
+  box-shadow: 5px 5px 5px rgb(68, 68, 68);
+}
+
+.pop-up-btns > a {
+  height: 30px;
+  width: 90px;
+  border: none;
+  border-radius: 3px;
+}
+
+.cancel {
+  background-color: rgb(182 182 182);
+  color: black;
+}
+
+.confirm {
+  background-color: rgb(220 38 38);
+  color: white;
+}
+
+p {
+  font-size: 14px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.pop-up-btns {
+  padding: 12px;
 }

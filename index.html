@@ -20,6 +20,21 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <div class="modal hidden justify-center align-center">
+    <div class="pop-up">
+      <div class="row">
+        <div class="column-full mb-25">
+          <p class="text-center">Are you sure you want to delete this entry?</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="pop-up-btns column-full display-flex justify-between">
+          <a href="#" class="cancel new-a-position" data-view="entries">CANCEL</a>
+          <a href="#" class="confirm new-a-position" data-view="entries">CONFIRM</a>
+        </div>
+      </div>
+    </div>
+  </div>
   <header class="color-purple">
     <div class="row align-center height-50 container">
       <div class="column-full display-flex">
@@ -65,7 +80,8 @@
               <label for="notes">Notes</label>
             </div>
             <textarea name="user-notes" id="notes" required="true" class="mt-10"></textarea>
-            <div class="text-right">
+            <div class="display-flex justify-between">
+              <a href="#" class="delete-entry hidden">Delete Entry</a>
               <button class="mb-25 color-purple button-styling color-white">SAVE</button>
             </div>
           </div>

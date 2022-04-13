@@ -11,6 +11,10 @@ var $ul = document.querySelector('ul');
 var $h1NewEntry = document.querySelector('.new-entry');
 var $viewNodeList = document.querySelectorAll('.view');
 var $bodyElement = document.querySelector('body');
+var $deleteEntryAnchor = document.querySelector('.delete-entry');
+var $modal = document.querySelector('.modal');
+var $cancelBtn = document.querySelector('.cancel');
+var $confirmBtn = document.querySelector('.confirm');
 
 $form.addEventListener('input', handleInputEvent);
 
@@ -100,7 +104,7 @@ function renderEntries(form) {
   $div.appendChild($p);
   $li.appendChild($div);
 
-  $divElementNoEntries.className = 'no-entries hidden';
+  $divElementNoEntries.classList.add('hidden');
 
   $li.dataset.entryId = form.id;
 
@@ -121,7 +125,7 @@ $bodyElement.addEventListener('click', handleAnchorClickEvent);
 
 function handleAnchorClickEvent(event) {
   var $anchorDataViewAttribute = event.target.getAttribute('data-view');
-  if (event.target.matches('a')) {
+  if (event.target.matches('a') && (!event.target.closest('form'))) {
     viewSwap($anchorDataViewAttribute);
   }
 }
@@ -146,6 +150,7 @@ function handleIconCLickEvent(event) {
   $liDataEntryId = Number($liDataEntryId);
   if (event.target.matches('i')) {
     viewSwap($iconDataViewAttribute);
+    $deleteEntryAnchor.className = 'delete-entry';
     getEntryData($liDataEntryId);
     renderEditForm(data.editing);
   }
@@ -165,4 +170,36 @@ function renderEditForm(entry) {
   $placeHolderImage.setAttribute('src', entry.imageUrl);
   $inputTitle.value = entry.title;
   $inputNotes.value = entry.notes;
+}
+$form.addEventListener('click', handleDeleteClickEvent);
+
+function handleDeleteClickEvent(event) {
+  if (event.target.matches('a')) {
+    $modal.classList.remove('hidden');
+  }
+}
+
+$modal.addEventListener('click', handleModalBtnsClickEvent);
+
+function handleModalBtnsClickEvent(event) {
+  var $anchorDataViewAttribute = event.target.getAttribute('data-view');
+  if (event.target === $cancelBtn) {
+    viewSwap($anchorDataViewAttribute);
+    $modal.classList.add('hidden');
+  }
+  if (event.target === $confirmBtn) {
+    var $deleteCurrentLi = document.querySelector('[data-entry-id="' + data.editing.id + '"]');
+    var indexOfEntries = data.entries.indexOf(data.editing);
+    data.entries.splice(indexOfEntries, 1);
+    $deleteCurrentLi.remove();
+    data.editing = null;
+    viewSwap($anchorDataViewAttribute);
+    $modal.classList.add('hidden');
+    $h1NewEntry.textContent = 'New Entry';
+    $placeHolderImage.setAttribute('src', 'images/placeholder-image-square.jpg');
+    $form.reset();
+    if (data.entries.length === 0) {
+      $divElementNoEntries.classList.remove('hidden');
+    }
+  }
 }
